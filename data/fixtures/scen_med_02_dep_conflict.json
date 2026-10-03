@@ -1,0 +1,9 @@
+{
+  "scenario_id": "SCEN-MED-02",
+  "name": "Dependency Version Incompatibility",
+  "pipeline_stage": "security-audit",
+  "expected_category": "DEPENDENCY_VERSION_CONFLICT",
+  "expected_risk_tier": "MEDIUM",
+  "expected_action": "ESCALATE_WITH_PATCH_PROPOSAL",
+  "log_content": "2026-10-03T15:10:00.000Z [INFO] Resolving dependencies from requirements.txt...\nCollecting pydantic>=2.6.0\n  Using cached pydantic-2.6.4-py3-none-any.whl\nCollecting legacy-sensor-sdk==0.8.0\n  Using cached legacy_sensor_sdk-0.8.0-py3-none-any.whl\nERROR: Cannot install -r requirements.txt because these package versions have conflicting dependencies.\n\nThe conflict is caused by:\n    The user requested pydantic>=2.6.0\n    legacy-sensor-sdk 0.8.0 depends on pydantic<2.0.0 and >=1.8.0\n\nTo fix this you could try to:\n1. loosen the range of package versions you've specified\n2. remove package versions to allow pip attempt to solve the dependency conflict\n\nERROR: ResolutionImpossible: for sub-dependencies\nError: Process completed with exit code 1."
+}

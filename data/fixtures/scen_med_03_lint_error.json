@@ -1,0 +1,9 @@
+{
+  "scenario_id": "SCEN-MED-03",
+  "name": "Strict Linter / Type Check Failure",
+  "pipeline_stage": "lint-and-quality",
+  "expected_category": "LINT_OR_QUALITY_GATE_FAILURE",
+  "expected_risk_tier": "MEDIUM",
+  "expected_action": "ESCALATE_WITH_PATCH_PROPOSAL",
+  "log_content": "2026-10-03T15:20:00.000Z [INFO] Running ruff code quality checks...\napp/models.py:4:1: F401 `typing.Dict` imported but unused\napp/service.py:14:80: E501 Line too long (92 > 79 characters)\napp/service.py:28:5: F841 Local variable `unused_token` is assigned to but never used\nFound 3 errors.\n1 fixable with the `--fix` option.\nError: Process completed with exit code 1."
+}

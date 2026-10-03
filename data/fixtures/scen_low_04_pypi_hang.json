@@ -1,0 +1,9 @@
+{
+  "scenario_id": "SCEN-LOW-04",
+  "name": "PyPI Mirror Transient Socket Reset",
+  "pipeline_stage": "lint-and-quality",
+  "expected_category": "DEPENDENCY_DOWNLOAD_TIMEOUT",
+  "expected_risk_tier": "LOW",
+  "expected_action": "RETRY_JOB",
+  "log_content": "2026-10-03T14:45:00.000Z [INFO] Installing build and lint dependencies...\nRequirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.8/x64/lib/python3.11/site-packages (24.0)\nCollecting ruff\n  Downloading ruff-0.3.0-py3-none-manylinux_2_17_x86_64.whl (8.4 MB)\nWARNING: Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'RemoteDisconnected(\"Remote end closed connection without response\")': /simple/ruff/\nERROR: HTTP 503 Service Unavailable: Backing index server error when downloading https://pypi.org/packages/ruff-0.3.0.whl\npip._vendor.urllib3.exceptions.ProtocolError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\nError: Process completed with exit code 1."
+}

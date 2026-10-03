@@ -1,0 +1,9 @@
+{
+  "scenario_id": "SCEN-LOW-01",
+  "name": "Transient Downstream Mock Timeout",
+  "pipeline_stage": "test-suite",
+  "expected_category": "TRANSIENT_NETWORK_TIMEOUT",
+  "expected_risk_tier": "LOW",
+  "expected_action": "RETRY_JOB",
+  "log_content": "2026-10-03T14:22:01.102Z [INFO] Running pytest on tests/ ...\n2026-10-03T14:22:01.300Z [INFO] tests/test_api.py::test_health_check PASSED\n2026-10-03T14:22:03.450Z [ERROR] tests/test_api.py::test_valid_telemetry_batch_ingest FAILED\n\n=================================== FAILURES ===================================\n________________________ test_valid_telemetry_batch_ingest _________________________\n\n    async def test_valid_telemetry_batch_ingest():\n>       response = await ac.post('/api/v1/telemetry', json=payload)\n\napp/service.py:22: in ingest_batch\n    res = await client.post('http://mock-sensor.internal:8080/api/v1/aggregate', json=...)\n\n.venv/lib/python3.11/site-packages/httpx/_transports/default.py:69: in handle_async_request\n    raise ConnectTimeout(f'Connection to mock-sensor.internal timed out after 2.0s')\nhttpx.ConnectTimeout: Connection to mock-sensor.internal timed out after 2.0s\n\nHTTPConnectionPool(host='mock-sensor.internal', port=8080): Max retries exceeded with url: /api/v1/aggregate (Read timed out)\n=========================== short test summary info ============================\nFAILED tests/test_api.py::test_valid_telemetry_batch_ingest - httpx.ConnectTimeout: Connection to mock-sensor.internal timed out after 2.0s\n========================= 1 failed, 4 passed in 2.81s ==========================\nProcess completed with exit code 1."
+}

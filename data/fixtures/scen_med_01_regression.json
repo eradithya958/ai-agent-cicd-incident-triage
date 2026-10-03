@@ -1,0 +1,9 @@
+{
+  "scenario_id": "SCEN-MED-01",
+  "name": "Deterministic Logic Bug / Assertion Failure",
+  "pipeline_stage": "test-suite",
+  "expected_category": "CODE_REGRESSION_BUG",
+  "expected_risk_tier": "MEDIUM",
+  "expected_action": "ESCALATE_WITH_PATCH_PROPOSAL",
+  "log_content": "2026-10-03T15:00:12.100Z [INFO] Executing pytest test suite...\ncollected 5 items\n\ntests/test_api.py .F                                                     [ 40%]\ntests/test_telemetry.py ...                                              [100%]\n\n=================================== FAILURES ===================================\n________________________ test_valid_telemetry_batch_ingest _________________________\n\n    async def test_valid_telemetry_batch_ingest():\n        payload = {'vehicle_vin': 'VOLVO123456789012', 'readings': [...]}\n>       assert response.status_code == 200\nE       assert 400 == 200\nE        +  where 400 = <Response [400 Bad Request]>.status_code\n\napp/models.py:18: ValueError: speed_kmh must be an integer, received float\n=========================== short test summary info ============================\nFAILED tests/test_api.py::test_valid_telemetry_batch_ingest - assert 400 == 200\n========================= 1 failed, 4 passed in 0.32s ==========================\nError: Process completed with exit code 1."
+}

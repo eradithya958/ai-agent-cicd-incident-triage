@@ -1,0 +1,9 @@
+{
+  "scenario_id": "SCEN-LOW-02",
+  "name": "Non-Deterministic Async Flaky Test",
+  "pipeline_stage": "test-suite",
+  "expected_category": "FLAKY_TEST",
+  "expected_risk_tier": "LOW",
+  "expected_action": "RERUN_FAILED_TESTS",
+  "log_content": "2026-10-03T14:30:10.010Z [INFO] Starting test execution with pytest...\ncollected 5 items\n\ntests/test_api.py ..                                                     [ 40%]\ntests/test_telemetry.py ..F                                              [100%]\n\n=================================== FAILURES ===================================\n__________________________ test_async_batch_flush ___________________________\n\n    async def test_async_batch_flush():\n        collector = BatchCollector(flush_interval_ms=50)\n        await collector.publish_event({'vin': 'V1'})\n        await asyncio.sleep(0.04) # Flaky timing condition\n>       assert collector.flushed_count == 1\nE       AssertionError: assert 0 == 1\nE       +  where 0 = <BatchCollector object>.flushed_count\n\ntests/test_telemetry.py:88: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_telemetry.py::test_async_batch_flush - AssertionError: assert 0 == 1\n========================= 1 failed, 4 passed in 0.45s ==========================\nError: Process completed with exit code 1."
+}

@@ -1,0 +1,9 @@
+{
+  "scenario_id": "SCEN-HIGH-01",
+  "name": "Critical Security Vulnerability (CVE)",
+  "pipeline_stage": "security-audit",
+  "expected_category": "SECURITY_VULNERABILITY_DETECTED",
+  "expected_risk_tier": "HIGH",
+  "expected_action": "MANDATORY_HUMAN_ESCALATION",
+  "log_content": "2026-10-03T15:30:00.000Z [INFO] Executing pip-audit on current dependency tree...\nFound 1 known vulnerability in 1 package\n\nName    Installed Version ID             Fix Versions Description\n------- ----------------- -------------- ------------ -----------------------------------------------------\nlibcrypto 1.1.1q          PYSEC-2026-901 1.1.1t       CVE-2026-901: Remote Code Execution flaw in parsing ASN.1 payload with CVSS score 9.8\n\n[CRITICAL] Security gate failed: Vulnerabilities above MEDIUM threshold detected.\nError: Process completed with exit code 1."
+}

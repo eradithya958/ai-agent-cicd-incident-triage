@@ -1,0 +1,9 @@
+{
+  "scenario_id": "SCEN-LOW-03",
+  "name": "Runner Disk Space Exhausted (ENOSPC)",
+  "pipeline_stage": "build-package",
+  "expected_category": "RUNNER_DISK_EXHAUSTION",
+  "expected_risk_tier": "LOW",
+  "expected_action": "PURGE_CACHE_AND_RETRY",
+  "log_content": "2026-10-03T14:40:02.000Z [INFO] Building Docker image fleet-telemetry-gateway:latest...\n#1 [internal] load build definition from Dockerfile\n#2 [internal] load .dockerignore\n#3 [1/4] FROM python:3.11-slim\n#4 [2/4] COPY requirements.txt .\n#5 [3/4] RUN pip install --no-cache-dir -r requirements.txt\n#6 [4/4] COPY . .\n#6 extracting layer sha256:7c9e1234abcd5678...\nERROR: failed to solve: failed to copy files: write /var/lib/docker/overlay2/layer/merged/app/main.py: no space left on device\nOSError: [Errno 28] No space left on device\nError: Process completed with exit code 1."
+}

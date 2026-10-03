@@ -1,0 +1,9 @@
+{
+  "scenario_id": "SCEN-HIGH-02",
+  "name": "Canary Deployment Health Probe 500",
+  "pipeline_stage": "deploy-simulation",
+  "expected_category": "PRODUCTION_DEPLOYMENT_FAILURE",
+  "expected_risk_tier": "HIGH",
+  "expected_action": "MANDATORY_HUMAN_ESCALATION",
+  "log_content": "2026-10-03T15:40:00.000Z [INFO] Initiating canary deployment rollout to staging cluster [region=eu-north-1]...\n2026-10-03T15:40:12.000Z [INFO] Ingress route updated. Polling canary endpoint http://canary.staging.fleet.internal/healthz ...\n2026-10-03T15:40:15.000Z [ERROR] Probe attempt 1 failed: HTTP 500 Internal Server Error\n2026-10-03T15:40:18.000Z [ERROR] Probe attempt 2 failed: HTTP 500 Internal Server Error\nResponse Body: {\"status\": \"DOWN\", \"error\": \"DatabaseMigrationMismatchException: schema revision 14a differs from live database schema revision 12b\"}\n[FATAL] Canary health threshold not met (0/2 healthy). Halting release pipeline.\nError: Process completed with exit code 1."
+}
