@@ -1,0 +1,19 @@
+{
+  "incident_id": "INC-1791039193079",
+  "timestamp": "2026-10-03T14:53:13Z",
+  "pipeline_stage": "test-suite",
+  "scenario_id": null,
+  "failure_signature": "CODE_ASSERTION_REGRESSION",
+  "error_type": "TestFailure",
+  "assigned_category": "CODE_REGRESSION_BUG",
+  "risk_tier": "MEDIUM",
+  "classification_confidence": 0.95,
+  "policy_rule_enforced": "POL-TIER2-MEDIUM-RISK-ASSIST",
+  "policy_justification": "Medium-risk incident (CODE_REGRESSION_BUG). Mutable code or configuration changes required. Agent generates patch diff for human engineer approval.",
+  "requires_human_approval": true,
+  "diagnostic_summary": "Rule-based match: matched signature 'CODE_ASSERTION_REGRESSION'; matched keywords ['valueerror', 'assert 400 == 200']",
+  "recommended_patch_proposal": "```diff\n--- a/app/models.py\n+++ b/app/models.py\n@@ -15,3 +15,3 @@\n-    speed_kmh: int\n+    speed_kmh: float\n```\nRationale: Schema validation failed because incoming sensor floats were rejected by integer constraint.",
+  "raw_error_message": "tests/test_api.py::test_valid_telemetry_batch_ingest - assert 400 == 200",
+  "stack_trace_excerpt": null,
+  "escalation_channel": "github-pr-review-queue"
+}
