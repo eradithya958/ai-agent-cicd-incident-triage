@@ -1,0 +1,19 @@
+{
+  "incident_id": "INC-1791039361475",
+  "timestamp": "2026-10-03T14:56:01Z",
+  "pipeline_stage": "security-audit",
+  "scenario_id": "SCEN-HIGH-01",
+  "failure_signature": "SECURITY_VULNERABILITY_DETECTED",
+  "error_type": "SecurityVulnerabilityError",
+  "assigned_category": "SECURITY_VULNERABILITY_DETECTED",
+  "risk_tier": "HIGH",
+  "classification_confidence": 1.0,
+  "policy_rule_enforced": "POL-TIER3-HIGH-RISK-ESCALATE",
+  "policy_justification": "High-risk incident (SECURITY_VULNERABILITY_DETECTED). Potential blast radius affects production/security perimeter. Mandatory human operator oversight required.",
+  "requires_human_approval": true,
+  "diagnostic_summary": "Rule-based match: matched signature 'SECURITY_VULNERABILITY_DETECTED'; matched keywords ['cve-', 'pip-audit', 'vulnerability']",
+  "recommended_patch_proposal": "ACTION REQUIRED: Upgrade `libcrypto` dependency to >= 1.1.1t to mitigate CVE-2026-901.\nSecOps review mandatory prior to release unblock.",
+  "raw_error_message": "CVE-2026-901: Remote Code Execution flaw in parsing ASN.1 payload with CVSS score 9.8",
+  "stack_trace_excerpt": "[CRITICAL] Security gate failed: Vulnerabilities above MEDIUM threshold detected.",
+  "escalation_channel": "slack-#platform-incident-triage"
+}

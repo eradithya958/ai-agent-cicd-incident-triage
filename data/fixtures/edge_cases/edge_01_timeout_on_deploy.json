@@ -1,0 +1,9 @@
+{
+  "scenario_id": "EDGE-PROD-TIMEOUT-01",
+  "name": "Timeout During Live Deployment Probe (Production Boundary)",
+  "pipeline_stage": "deploy-simulation",
+  "expected_category": "PRODUCTION_DEPLOYMENT_FAILURE",
+  "expected_risk_tier": "HIGH",
+  "expected_action": "MANDATORY_HUMAN_ESCALATION",
+  "log_content": "2026-10-03T16:00:00.000Z [INFO] Deploying container to live staging cluster...\n2026-10-03T16:00:15.000Z [ERROR] Probe request timed out: ConnectTimeout: Connection to live staging ingress timed out after 10.0s\n[FATAL] Deploy healthcheck failed during canary rollout. Target host unreachable.\nError: Process completed with exit code 1."
+}

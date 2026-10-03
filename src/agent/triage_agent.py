@@ -9,12 +9,13 @@ from src.policy.rules_engine import EscalationPolicyEngine
 from src.policy.models import PolicyDecision, ActionType
 from src.remediation.actions import AutonomousRemediationExecutor
 from src.remediation.incident_reporter import IncidentReporter
+from src.audit.logger import AuditLogger
 
 
 class CICDIncidentTriageAgent:
     """
     Main Autonomous Triage Agent orchestrating detection, policy-governed triage,
-    allowlisted autonomous remediation, and human-in-the-loop escalation.
+    allowlisted autonomous remediation, human-in-the-loop escalation, and audit logging.
     """
 
     def __init__(
@@ -24,6 +25,7 @@ class CICDIncidentTriageAgent:
         policy_engine: Optional[EscalationPolicyEngine] = None,
         executor: Optional[AutonomousRemediationExecutor] = None,
         reporter: Optional[IncidentReporter] = None,
+        audit_logger: Optional[AuditLogger] = None,
         kill_switch_active: bool = False,
     ):
         self.parser = parser or CICDLogParser()
@@ -31,6 +33,8 @@ class CICDIncidentTriageAgent:
         self.policy_engine = policy_engine or EscalationPolicyEngine(kill_switch_active=kill_switch_active)
         self.executor = executor or AutonomousRemediationExecutor()
         self.reporter = reporter or IncidentReporter()
+        self.audit_logger = audit_logger or AuditLogger()
+
 
     def triage_incident(
         self,
@@ -83,7 +87,7 @@ class CICDIncidentTriageAgent:
             )
             final_status = "ESCALATED_TO_HUMAN"
 
-        return {
+        result = {
             "incident_id": parsed_incident.incident_id,
             "scenario_id": parsed_incident.scenario_id,
             "pipeline_stage": parsed_incident.pipeline_stage,
@@ -94,3 +98,10 @@ class CICDIncidentTriageAgent:
             "execution_outcome": execution_outcome,
             "escalation_report": escalation_report,
         }
+
+        # Step 5: Immutable Audit Logging (Compliance Record)
+        if self.audit_logger:
+            self.audit_logger.log_triage_decision(result)
+
+        return result
+

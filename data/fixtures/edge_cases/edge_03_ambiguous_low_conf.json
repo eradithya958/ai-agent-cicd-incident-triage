@@ -1,0 +1,9 @@
+{
+  "scenario_id": "EDGE-AMBIGUOUS-03",
+  "name": "Ambiguous Composite Error with Low Confidence",
+  "pipeline_stage": "unknown-stage",
+  "expected_category": "UNKNOWN_FAILURE",
+  "expected_risk_tier": "HIGH",
+  "expected_action": "MANDATORY_HUMAN_ESCALATION",
+  "log_content": "2026-10-03T16:20:00.000Z [INFO] Initializing unclassified custom build step...\nSystem returned code 137 with unparseable kernel signal output: 0xDEADBEEF\nUnknown runtime fault encountered in background thread.\nError: Process completed with exit code 1."
+}

@@ -1,0 +1,19 @@
+{
+  "incident_id": "INC-1791039361476",
+  "timestamp": "2026-10-03T14:56:01Z",
+  "pipeline_stage": "deploy-simulation",
+  "scenario_id": "SCEN-HIGH-02",
+  "failure_signature": "CANARY_DEPLOYMENT_FAILED",
+  "error_type": "DeploymentHealthProbeError",
+  "assigned_category": "PRODUCTION_DEPLOYMENT_FAILURE",
+  "risk_tier": "HIGH",
+  "classification_confidence": 1.0,
+  "policy_rule_enforced": "POL-STAGE-01-PROD-BOUNDARY",
+  "policy_justification": "Incident occurred in deployment stage 'deploy-simulation'. Production/staging environment mutations carry high blast radius and strictly forbid autonomous action.",
+  "requires_human_approval": true,
+  "diagnostic_summary": "Rule-based match: matched signature 'CANARY_DEPLOYMENT_FAILED'; matched keywords ['canary', 'databasemigrationmismatchexception', '500 internal server error', 'healthz']",
+  "recommended_patch_proposal": "ACTION REQUIRED: Run database schema migration sync `alembic upgrade head` on staging cluster.\nCanary deployment failed health check due to schema version divergence.",
+  "raw_error_message": "Canary deployment health probe failed with HTTP 500 (schema mismatch)",
+  "stack_trace_excerpt": null,
+  "escalation_channel": "slack-#platform-incident-triage"
+}

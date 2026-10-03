@@ -145,7 +145,24 @@ class EscalationPolicyEngine:
                 audit_metadata={"retry_count": retry_count}
             )
 
-        # RULE 4: HIGH RISK TIER ENFORCEMENT
+        # RULE 4: PRODUCTION/DEPLOYMENT STAGE BOUNDARY (BLAST RADIUS OVERRIDE)
+        # Even if a failure looks like a low-risk timeout, if it occurs during deployment/staging,
+        # it carries production blast radius and must strictly escalate to High Risk.
+        if failure.pipeline_stage in ["deploy-simulation", "production-deploy", "deploy", "staging-deploy"]:
+            return PolicyDecision(
+                is_auto_actionable=False,
+                authorized_action=ActionType.MANDATORY_HUMAN_ESCALATION,
+                effective_risk_tier=RiskTier.HIGH,
+                requires_human_approval=True,
+                rule_code="POL-STAGE-01-PROD-BOUNDARY",
+                justification=(
+                    f"Incident occurred in deployment stage '{failure.pipeline_stage}'. "
+                    "Production/staging environment mutations carry high blast radius and strictly forbid autonomous action."
+                ),
+                audit_metadata={"stage": failure.pipeline_stage, "category": category}
+            )
+
+        # RULE 5: HIGH RISK TIER ENFORCEMENT
         if tier_str == "HIGH" or category.startswith("SECURITY") or category.startswith("PRODUCTION") or category.startswith("SECRET"):
             return PolicyDecision(
                 is_auto_actionable=False,
@@ -160,7 +177,7 @@ class EscalationPolicyEngine:
                 audit_metadata={"category": category, "confidence": confidence}
             )
 
-        # RULE 5: LOW CONFIDENCE UNCERTAINTY FALLBACK
+        # RULE 6: LOW CONFIDENCE UNCERTAINTY FALLBACK
         if confidence < MIN_AUTONOMOUS_CONFIDENCE:
             return PolicyDecision(
                 is_auto_actionable=False,
@@ -176,7 +193,7 @@ class EscalationPolicyEngine:
                 audit_metadata={"confidence": confidence, "threshold": MIN_AUTONOMOUS_CONFIDENCE}
             )
 
-        # RULE 6: MEDIUM RISK TIER (ASSISTED ESCALATION)
+        # RULE 7: MEDIUM RISK TIER (ASSISTED ESCALATION)
         if tier_str == "MEDIUM":
             return PolicyDecision(
                 is_auto_actionable=False,
@@ -191,7 +208,7 @@ class EscalationPolicyEngine:
                 audit_metadata={"category": category, "confidence": confidence}
             )
 
-        # RULE 7: LOW RISK TIER (AUTONOMOUS EXECUTION AUTHORIZED)
+        # RULE 8: LOW RISK TIER (AUTONOMOUS EXECUTION AUTHORIZED)
         if tier_str == "LOW" and is_permitted_low_risk_action(target_action):
             return PolicyDecision(
                 is_auto_actionable=True,
@@ -205,6 +222,7 @@ class EscalationPolicyEngine:
                 ),
                 audit_metadata={"category": category, "confidence": confidence, "retry_count": retry_count}
             )
+
 
         # Catch-all safe fallback
         return PolicyDecision(

@@ -1,0 +1,19 @@
+{
+  "incident_id": "INC-1791039361480",
+  "timestamp": "2026-10-03T14:56:01Z",
+  "pipeline_stage": "security-audit",
+  "scenario_id": "SCEN-MED-02",
+  "failure_signature": "DEPENDENCY_RESOLUTION_CONFLICT",
+  "error_type": "ResolutionImpossible",
+  "assigned_category": "DEPENDENCY_VERSION_CONFLICT",
+  "risk_tier": "MEDIUM",
+  "classification_confidence": 0.95,
+  "policy_rule_enforced": "POL-TIER2-MEDIUM-RISK-ASSIST",
+  "policy_justification": "Medium-risk incident (DEPENDENCY_VERSION_CONFLICT). Mutable code or configuration changes required. Agent generates patch diff for human engineer approval.",
+  "requires_human_approval": true,
+  "diagnostic_summary": "Rule-based match: matched signature 'DEPENDENCY_RESOLUTION_CONFLICT'; matched keywords ['resolutionimpossible', 'conflicting dependencies']",
+  "recommended_patch_proposal": "```diff\n--- a/requirements.txt\n+++ b/requirements.txt\n@@ -1,2 +1,2 @@\n-pydantic>=2.6.0\n+pydantic>=1.10.15,<2.0.0\n```\nRationale: Pinned pydantic to compatible v1.x branch to satisfy legacy-sensor-sdk constraints.",
+  "raw_error_message": "Conflicting package dependency specifications encountered",
+  "stack_trace_excerpt": "ERROR: Cannot install -r requirements.txt because these package versions have conflicting dependencies.\nERROR: ResolutionImpossible: for sub-dependencies",
+  "escalation_channel": "github-pr-review-queue"
+}

@@ -1,0 +1,19 @@
+{
+  "incident_id": "INC-1791039361495",
+  "timestamp": "2026-10-03T14:56:01Z",
+  "pipeline_stage": "unknown-stage",
+  "scenario_id": "EDGE-AMBIGUOUS-03",
+  "failure_signature": "GENERIC_CI_FAILURE",
+  "error_type": "UnknownError",
+  "assigned_category": "UNKNOWN_FAILURE",
+  "risk_tier": "HIGH",
+  "classification_confidence": 0.3,
+  "policy_rule_enforced": "POL-TIER3-HIGH-RISK-ESCALATE",
+  "policy_justification": "High-risk incident (UNKNOWN_FAILURE). Potential blast radius affects production/security perimeter. Mandatory human operator oversight required.",
+  "requires_human_approval": true,
+  "diagnostic_summary": "LLM Diagnosis: Unrecognized failure pattern. - Fail-safe: unclassified failures must escalate to human operators.",
+  "recommended_patch_proposal": "Manual human triage and investigation required.",
+  "raw_error_message": "Command completed with non-zero exit code",
+  "stack_trace_excerpt": null,
+  "escalation_channel": "slack-#platform-incident-triage"
+}
