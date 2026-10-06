@@ -4,11 +4,12 @@ Tests for Rule-based, LLM, and Hybrid Classifiers
 import glob
 import json
 import os
+
 import pytest
-from src.parser.log_parser import CICDLogParser
-from src.classifier.rule_classifier import RuleBasedClassifier
-from src.classifier.llm_classifier import LLMClassifier
+
 from src.classifier.hybrid_classifier import HybridTriageClassifier
+from src.classifier.rule_classifier import RuleBasedClassifier
+from src.parser.log_parser import CICDLogParser
 
 
 @pytest.fixture

@@ -1,7 +1,7 @@
 """
 Fleet Telemetry Gateway Data Models
 """
-from typing import Optional, List
+
 from pydantic import BaseModel, Field, field_validator
 
 
@@ -10,8 +10,8 @@ class SensorReading(BaseModel):
     timestamp_epoch_ms: int = Field(..., description="Epoch timestamp in milliseconds")
     speed_kmh: float = Field(..., ge=0.0, le=250.0, description="Vehicle velocity in km/h")
     battery_level_pct: float = Field(..., ge=0.0, le=100.0, description="Battery state of charge")
-    latitude: Optional[float] = Field(None, ge=-90.0, le=90.0)
-    longitude: Optional[float] = Field(None, ge=-180.0, le=180.0)
+    latitude: float | None = Field(None, ge=-90.0, le=90.0)
+    longitude: float | None = Field(None, ge=-180.0, le=180.0)
 
     @field_validator("speed_kmh")
     @classmethod
@@ -23,7 +23,7 @@ class SensorReading(BaseModel):
 
 class TelemetryBatch(BaseModel):
     vehicle_vin: str = Field(..., min_length=17, max_length=17, description="17-char VIN")
-    readings: List[SensorReading] = Field(..., min_length=1)
+    readings: list[SensorReading] = Field(..., min_length=1)
     client_version: str = "v1.4.0"
 
 

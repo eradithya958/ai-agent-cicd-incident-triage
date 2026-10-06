@@ -2,7 +2,8 @@
 Data models and Enums for the CI/CD Risk-Tiering & Escalation Policy Engine.
 """
 from enum import Enum
-from typing import Optional, Dict, Any, List
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
@@ -48,5 +49,5 @@ class PolicyDecision(BaseModel):
     kill_switch_active: bool = Field(False, description="True if emergency kill switch is engaged")
     rule_code: str = Field(..., description="Specific policy rule identifier enforced")
     justification: str = Field(..., description="Formal SRE/governance rationale for the decision")
-    guardrail_violations: List[str] = Field(default_factory=list, description="Any detected guardrail violations")
-    audit_metadata: Dict[str, Any] = Field(default_factory=dict, description="Audit logging payload")
+    guardrail_violations: list[str] = Field(default_factory=list, description="Any detected guardrail violations")
+    audit_metadata: dict[str, Any] = Field(default_factory=dict, description="Audit logging payload")

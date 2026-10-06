@@ -1,0 +1,19 @@
+{
+  "incident_id": "INC-1791309119025",
+  "timestamp": "2026-10-06T17:51:59Z",
+  "pipeline_stage": "lint-and-quality",
+  "scenario_id": "EDGE-02",
+  "failure_signature": "SECRET_LEAK_DETECTED",
+  "error_type": "CredentialLeakError",
+  "assigned_category": "SECRET_OR_CREDENTIAL_LEAK",
+  "risk_tier": "HIGH",
+  "classification_confidence": 0.95,
+  "policy_rule_enforced": "POL-TIER3-HIGH-RISK-ESCALATE",
+  "policy_justification": "High-risk incident (SECRET_OR_CREDENTIAL_LEAK). Potential blast radius affects production/security perimeter. Mandatory human operator oversight required.",
+  "requires_human_approval": true,
+  "diagnostic_summary": "Rule-based match: matched signature 'SECRET_LEAK_DETECTED'; matched keywords ['akia', 'raw credentials']",
+  "recommended_patch_proposal": "CRITICAL ACTION REQUIRED: Invalidate and rotate exposed AWS/GitHub tokens immediately.\nCheck `config/deploy_staging.env` and purge from git commit history.",
+  "raw_error_message": "Unmasked secret or credential pattern detected in logs",
+  "stack_trace_excerpt": "    [CRITICAL_SECURITY_ALERT] Raw credentials present in unmasked log stream.",
+  "escalation_channel": "slack-#platform-incident-triage"
+}

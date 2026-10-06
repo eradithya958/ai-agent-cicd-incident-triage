@@ -2,10 +2,11 @@
 Two-Stage Hybrid CI/CD Failure Classifier.
 Orchestrates fast deterministic rule matching (Stage 1) with semantic LLM evaluation (Stage 2).
 """
-from typing import Dict, Any, Optional
-from src.parser.models import ParsedIncident
-from src.classifier.rule_classifier import RuleBasedClassifier
+from typing import Any
+
 from src.classifier.llm_classifier import LLMClassifier
+from src.classifier.rule_classifier import RuleBasedClassifier
+from src.parser.models import ParsedIncident
 
 
 class HybridTriageClassifier:
@@ -18,14 +19,14 @@ class HybridTriageClassifier:
     def __init__(
         self,
         confidence_threshold: float = 0.80,
-        rule_classifier: Optional[RuleBasedClassifier] = None,
-        llm_classifier: Optional[LLMClassifier] = None,
+        rule_classifier: RuleBasedClassifier | None = None,
+        llm_classifier: LLMClassifier | None = None,
     ):
         self.confidence_threshold = confidence_threshold
         self.rule_engine = rule_classifier or RuleBasedClassifier()
         self.llm_engine = llm_classifier or LLMClassifier()
 
-    def classify(self, incident: ParsedIncident) -> Dict[str, Any]:
+    def classify(self, incident: ParsedIncident) -> dict[str, Any]:
         """
         Classifies the incident using Stage 1 rules, falling back to Stage 2 LLM when needed.
         """

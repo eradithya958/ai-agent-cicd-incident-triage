@@ -2,10 +2,10 @@
 Deterministic Policy Engine for CI/CD Incident Triage and Autonomy Escalation.
 This module is the sole authority governing whether an agent may execute an action or must escalate.
 """
-from typing import Dict, Any, Optional
-from src.parser.models import ParsedIncident
-from src.policy.models import RiskTier, ActionType, PolicyDecision
+from typing import Any
 
+from src.parser.models import ParsedIncident
+from src.policy.models import ActionType, PolicyDecision, RiskTier
 
 # Hard-coded, immutable allowlist of autonomous actions
 PERMITTED_AUTONOMOUS_ACTIONS = {
@@ -56,9 +56,7 @@ def is_auto_actionable(
         return False
     if confidence < MIN_AUTONOMOUS_CONFIDENCE:
         return False
-    if not is_permitted_low_risk_action(action):
-        return False
-    return True
+    return is_permitted_low_risk_action(action)
 
 
 class EscalationPolicyEngine:
@@ -72,8 +70,8 @@ class EscalationPolicyEngine:
     def evaluate_policy(
         self,
         failure: ParsedIncident,
-        classification: Dict[str, Any],
-        requested_action: Optional[ActionType] = None,
+        classification: dict[str, Any],
+        requested_action: ActionType | None = None,
         retry_count: int = 0,
     ) -> PolicyDecision:
         """
@@ -163,7 +161,7 @@ class EscalationPolicyEngine:
             )
 
         # RULE 5: HIGH RISK TIER ENFORCEMENT
-        if tier_str == "HIGH" or category.startswith("SECURITY") or category.startswith("PRODUCTION") or category.startswith("SECRET"):
+        if tier_str == "HIGH" or category.startswith(("SECURITY", "PRODUCTION", "SECRET")):
             return PolicyDecision(
                 is_auto_actionable=False,
                 authorized_action=ActionType.MANDATORY_HUMAN_ESCALATION,

@@ -2,9 +2,10 @@
 LLM-Based CI/CD Failure Classifier.
 Leverages local Ollama (or fallback) to synthesize semantic diagnoses and risk evaluations for complex failure traces.
 """
-from typing import Dict, Any, Optional
-from src.parser.models import ParsedIncident
+from typing import Any
+
 from src.llm.client import LocalLLMClient
+from src.parser.models import ParsedIncident
 
 
 class LLMClassifier:
@@ -36,10 +37,10 @@ Respond ONLY with a JSON object matching this schema:
   "justification": "..."
 }"""
 
-    def __init__(self, llm_client: Optional[LocalLLMClient] = None):
+    def __init__(self, llm_client: LocalLLMClient | None = None):
         self.client = llm_client or LocalLLMClient()
 
-    def classify(self, incident: ParsedIncident) -> Dict[str, Any]:
+    def classify(self, incident: ParsedIncident) -> dict[str, Any]:
         """
         Submits incident context to the LLM for structured triage and diagnosis.
         """

@@ -4,20 +4,18 @@ Unit Tests for Deterministic Risk-Tiering & Escalation Policy Engine (Phase 2).
 import glob
 import json
 import os
+
 import pytest
 
-from src.parser.models import ParsedIncident
-from src.policy.models import RiskTier, ActionType
-from src.policy.rules_engine import (
-    EscalationPolicyEngine,
-    is_auto_actionable,
-    is_prohibited_action,
-    is_permitted_low_risk_action,
-    INVARIANT_PROHIBITED_ACTIONS,
-    PERMITTED_AUTONOMOUS_ACTIONS,
-)
-from src.parser.log_parser import CICDLogParser
 from src.classifier.hybrid_classifier import HybridTriageClassifier
+from src.parser.log_parser import CICDLogParser
+from src.parser.models import ParsedIncident
+from src.policy.models import ActionType, RiskTier
+from src.policy.rules_engine import (
+    INVARIANT_PROHIBITED_ACTIONS,
+    EscalationPolicyEngine,
+    is_prohibited_action,
+)
 
 
 @pytest.fixture

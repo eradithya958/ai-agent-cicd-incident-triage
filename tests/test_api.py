@@ -3,6 +3,7 @@ Unit Tests for Fleet Telemetry Gateway API
 """
 import pytest
 from httpx import ASGITransport, AsyncClient
+
 from app.main import app
 
 

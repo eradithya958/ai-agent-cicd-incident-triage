@@ -4,7 +4,8 @@ Provides structured prompt execution for incident classification and diagnosis.
 """
 import json
 import logging
-from typing import Dict, Any, Optional
+from typing import Any
+
 import httpx
 
 logger = logging.getLogger("cicd_agent.llm")
@@ -31,10 +32,10 @@ class LocalLLMClient:
             with httpx.Client(timeout=1.5) as client:
                 res = client.get(f"{self.base_url}/api/tags")
                 return res.status_code == 200
-        except Exception:
+        except Exception:  # noqa: BLE001
             return False
 
-    def generate_json(self, prompt: str, system_prompt: Optional[str] = None) -> Dict[str, Any]:
+    def generate_json(self, prompt: str, system_prompt: str | None = None) -> dict[str, Any]:
         """
         Sends prompt to LLM and returns parsed JSON.
         If Ollama is offline, falls back to the deterministic local semantic reasoner.
@@ -54,12 +55,12 @@ class LocalLLMClient:
                         data = response.json()
                         response_text = data.get("response", "{}")
                         return json.loads(response_text)
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.warning(f"Ollama inference failed ({e}), using deterministic reasoning fallback.")
 
         return self._deterministic_semantic_diagnosis(prompt)
 
-    def _deterministic_semantic_diagnosis(self, prompt: str) -> Dict[str, Any]:
+    def _deterministic_semantic_diagnosis(self, prompt: str) -> dict[str, Any]:
         """
         Semantic fallback engine implementing structured failure analysis when LLM server is not booted.
         """

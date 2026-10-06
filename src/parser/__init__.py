@@ -1,7 +1,7 @@
 """
 Parser package
 """
-from src.parser.models import ParsedIncident
 from src.parser.log_parser import CICDLogParser
+from src.parser.models import ParsedIncident
 
-__all__ = ["ParsedIncident", "CICDLogParser"]
+__all__ = ["CICDLogParser", "ParsedIncident"]

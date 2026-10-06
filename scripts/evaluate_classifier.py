@@ -6,19 +6,18 @@ import glob
 import json
 import os
 import sys
+
 from tabulate import tabulate
 
 # Ensure project root is in PYTHONPATH
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from src.parser.log_parser import CICDLogParser
 from src.classifier.hybrid_classifier import HybridTriageClassifier
-from src.classifier.rule_classifier import RuleBasedClassifier
+from src.parser.log_parser import CICDLogParser
 
 
 def evaluate_dataset(fixtures_dir: str):
     parser = CICDLogParser()
-    rule_classifier = RuleBasedClassifier()
     hybrid_classifier = HybridTriageClassifier()
 
     fixture_files = sorted(glob.glob(os.path.join(fixtures_dir, "*.json")))

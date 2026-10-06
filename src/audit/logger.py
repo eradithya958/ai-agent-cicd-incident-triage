@@ -6,7 +6,7 @@ import json
 import os
 import sqlite3
 import time
-from typing import Dict, Any, List, Optional
+from typing import Any
 
 
 class AuditLogger:
@@ -46,7 +46,7 @@ class AuditLogger:
             """)
             conn.commit()
 
-    def log_triage_decision(self, triage_result: Dict[str, Any]) -> str:
+    def log_triage_decision(self, triage_result: dict[str, Any]) -> str:
         """
         Persists a complete triage cycle to the SQLite database and JSONL file.
         """
@@ -111,7 +111,7 @@ class AuditLogger:
 
         return incident_id
 
-    def fetch_all_records(self) -> List[Dict[str, Any]]:
+    def fetch_all_records(self) -> list[dict[str, Any]]:
         """Returns all audit records from SQLite."""
         with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row

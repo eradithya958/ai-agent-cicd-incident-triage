@@ -1,0 +1,19 @@
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+exclude = [
+    ".git",
+    ".pytest_cache",
+    ".venv",
+    "venv",
+    "logs",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+ignore = ["E501", "UP042", "UP015"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests", "tests_agent"]
+addopts = "-v"

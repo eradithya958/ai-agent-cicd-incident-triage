@@ -1,15 +1,16 @@
 """
 Autonomous CI/CD Incident Triage Agent with Human-in-the-Loop Escalation.
 """
-from typing import Dict, Any, Optional
+from typing import Any
+
+from src.audit.logger import AuditLogger
+from src.classifier.hybrid_classifier import HybridTriageClassifier
 from src.parser.log_parser import CICDLogParser
 from src.parser.models import ParsedIncident
-from src.classifier.hybrid_classifier import HybridTriageClassifier
+from src.policy.models import ActionType, PolicyDecision
 from src.policy.rules_engine import EscalationPolicyEngine
-from src.policy.models import PolicyDecision, ActionType
 from src.remediation.actions import AutonomousRemediationExecutor
 from src.remediation.incident_reporter import IncidentReporter
-from src.audit.logger import AuditLogger
 
 
 class CICDIncidentTriageAgent:
@@ -20,12 +21,12 @@ class CICDIncidentTriageAgent:
 
     def __init__(
         self,
-        parser: Optional[CICDLogParser] = None,
-        classifier: Optional[HybridTriageClassifier] = None,
-        policy_engine: Optional[EscalationPolicyEngine] = None,
-        executor: Optional[AutonomousRemediationExecutor] = None,
-        reporter: Optional[IncidentReporter] = None,
-        audit_logger: Optional[AuditLogger] = None,
+        parser: CICDLogParser | None = None,
+        classifier: HybridTriageClassifier | None = None,
+        policy_engine: EscalationPolicyEngine | None = None,
+        executor: AutonomousRemediationExecutor | None = None,
+        reporter: IncidentReporter | None = None,
+        audit_logger: AuditLogger | None = None,
         kill_switch_active: bool = False,
     ):
         self.parser = parser or CICDLogParser()
@@ -39,11 +40,11 @@ class CICDIncidentTriageAgent:
     def triage_incident(
         self,
         raw_log: str,
-        stage: Optional[str] = None,
-        scenario_id: Optional[str] = None,
+        stage: str | None = None,
+        scenario_id: str | None = None,
         retry_count: int = 0,
-        requested_action: Optional[ActionType] = None,
-    ) -> Dict[str, Any]:
+        requested_action: ActionType | None = None,
+    ) -> dict[str, Any]:
         """
         Full end-to-end incident triage pipeline:
         1. Ingest & Parse

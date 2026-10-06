@@ -1,9 +1,8 @@
 """
 Unit Tests for Phase 5 & 6: Audit Logging, SQLite Persistence, and Safety Edge Cases.
 """
-import os
-import sqlite3
 import pytest
+
 from src.agent.triage_agent import CICDIncidentTriageAgent
 from src.audit.logger import AuditLogger
 from src.policy.models import RiskTier

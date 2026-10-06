@@ -3,7 +3,7 @@ CI Pipeline Simulation Runner.
 Executes or simulates the 5 pipeline stages and injects deliberate failures for test runs.
 """
 import time
-from typing import Dict, Any, Optional
+from typing import Any, ClassVar
 
 
 class PipelineSimulator:
@@ -11,7 +11,7 @@ class PipelineSimulator:
     Simulates the 5-stage Fleet Telemetry CI pipeline, capable of injecting specific scenarios.
     """
 
-    STAGES = [
+    STAGES: ClassVar[list[str]] = [
         "lint-and-quality",
         "security-audit",
         "test-suite",
@@ -19,10 +19,10 @@ class PipelineSimulator:
         "deploy-simulation"
     ]
 
-    def __init__(self, scenario_fixture_data: Optional[Dict[str, Any]] = None):
+    def __init__(self, scenario_fixture_data: dict[str, Any] | None = None):
         self.scenario = scenario_fixture_data
 
-    def run_pipeline(self, target_scenario_id: Optional[str] = None) -> Dict[str, Any]:
+    def run_pipeline(self, target_scenario_id: str | None = None) -> dict[str, Any]:
         """
         Executes stages in order. If a failure scenario is active for a stage, stops and returns failure log.
         """

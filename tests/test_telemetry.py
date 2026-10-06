@@ -2,6 +2,7 @@
 Telemetry Model and Logic Tests
 """
 import pytest
+
 from app.models import SensorReading, TelemetryBatch
 
 

@@ -5,6 +5,7 @@ import glob
 import json
 import os
 import sys
+
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
@@ -12,9 +13,9 @@ from rich.table import Table
 # Add project root to sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from src.simulator.pipeline_runner import PipelineSimulator
-from src.parser.log_parser import CICDLogParser
 from src.classifier.hybrid_classifier import HybridTriageClassifier
+from src.parser.log_parser import CICDLogParser
+from src.simulator.pipeline_runner import PipelineSimulator
 
 console = Console()
 

@@ -2,7 +2,8 @@
 Low-Risk Autonomous Remediation Action Executors and Strict Guardrails Runtime.
 """
 import time
-from typing import Dict, Any, Optional
+from typing import Any
+
 from src.parser.models import ParsedIncident
 from src.policy.models import ActionType
 from src.policy.rules_engine import is_permitted_low_risk_action, is_prohibited_action
@@ -10,7 +11,6 @@ from src.policy.rules_engine import is_permitted_low_risk_action, is_prohibited_
 
 class UnauthorizedActionError(PermissionError):
     """Raised when an attempt is made to execute an unapproved or prohibited action."""
-    pass
 
 
 class AutonomousRemediationExecutor:
@@ -25,8 +25,8 @@ class AutonomousRemediationExecutor:
         self,
         action: ActionType,
         incident: ParsedIncident,
-        context: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """
         Executes a remediation action with strict runtime allowlist enforcement.
         """
@@ -53,7 +53,7 @@ class AutonomousRemediationExecutor:
         else:
             raise UnauthorizedActionError(f"No execution handler registered for action '{action.value}'")
 
-    def _remediate_retry_job(self, incident: ParsedIncident, context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _remediate_retry_job(self, incident: ParsedIncident, context: dict[str, Any] | None) -> dict[str, Any]:
         """
         Idempotent retry of a transiently failed CI job (e.g. mock timeout, download hang).
         """
@@ -69,7 +69,7 @@ class AutonomousRemediationExecutor:
             "success": True,
         }
 
-    def _remediate_rerun_tests(self, incident: ParsedIncident, context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _remediate_rerun_tests(self, incident: ParsedIncident, context: dict[str, Any] | None) -> dict[str, Any]:
         """
         Targeted re-execution of a flaky test (pytest --lf).
         """
@@ -85,7 +85,7 @@ class AutonomousRemediationExecutor:
             "success": True,
         }
 
-    def _remediate_purge_cache(self, incident: ParsedIncident, context: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    def _remediate_purge_cache(self, incident: ParsedIncident, context: dict[str, Any] | None) -> dict[str, Any]:
         """
         Clears local runner container layer cache and retries build step.
         """

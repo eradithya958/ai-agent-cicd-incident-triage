@@ -1,0 +1,19 @@
+{
+  "incident_id": "INC-1791309059916",
+  "timestamp": "2026-10-06T17:50:59Z",
+  "pipeline_stage": "test-suite",
+  "scenario_id": null,
+  "failure_signature": "NETWORK_TIMEOUT",
+  "error_type": "ConnectTimeout",
+  "assigned_category": "TRANSIENT_NETWORK_TIMEOUT",
+  "risk_tier": "HIGH",
+  "classification_confidence": 0.95,
+  "policy_rule_enforced": "POL-GUARD-02-CIRCUIT-BREAKER",
+  "policy_justification": "Circuit breaker tripped: Automated retry limit (2) reached. Escalating to human on-call to prevent infinite loops.",
+  "requires_human_approval": true,
+  "diagnostic_summary": "Rule-based match: matched signature 'NETWORK_TIMEOUT'; matched keywords ['connecttimeout', 'timeout']",
+  "recommended_patch_proposal": "Manual human triage and investigation required.",
+  "raw_error_message": "Connection to mock service timed out after 2.0s",
+  "stack_trace_excerpt": null,
+  "escalation_channel": "slack-#platform-incident-triage"
+}

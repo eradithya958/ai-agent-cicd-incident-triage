@@ -5,7 +5,8 @@ Generates structured incident reports, proposed code patches, and notifications 
 import json
 import os
 import time
-from typing import Dict, Any, Optional
+from typing import Any
+
 from src.parser.models import ParsedIncident
 from src.policy.models import PolicyDecision, RiskTier
 
@@ -22,10 +23,10 @@ class IncidentReporter:
     def generate_report(
         self,
         incident: ParsedIncident,
-        classification: Dict[str, Any],
+        classification: dict[str, Any],
         decision: PolicyDecision,
-        patch_proposal: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        patch_proposal: str | None = None,
+    ) -> dict[str, Any]:
         """
         Synthesizes a structured incident ticket and saves it to disk.
         """
@@ -70,7 +71,7 @@ class IncidentReporter:
         report["md_path"] = ticket_md_path
         return report
 
-    def _derive_patch_proposal(self, incident: ParsedIncident, classification: Dict[str, Any]) -> str:
+    def _derive_patch_proposal(self, incident: ParsedIncident, classification: dict[str, Any]) -> str:
         cat = classification.get("category", "")
         if cat == "CODE_REGRESSION_BUG":
             return (
@@ -118,7 +119,7 @@ class IncidentReporter:
             )
         return "Manual human triage and investigation required."
 
-    def _format_markdown_brief(self, report: Dict[str, Any]) -> str:
+    def _format_markdown_brief(self, report: dict[str, Any]) -> str:
         return f"""# Incident Report: {report['incident_id']}
 
 **Risk Tier:** `{report['risk_tier']}`  

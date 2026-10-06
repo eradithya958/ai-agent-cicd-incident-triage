@@ -2,7 +2,8 @@
 FastAPI Application Entrypoint for Fleet Telemetry Gateway
 """
 from fastapi import FastAPI, HTTPException
-from app.models import TelemetryBatch, IngestResponse
+
+from app.models import IngestResponse, TelemetryBatch
 from app.service import TelemetryIngestService
 
 app = FastAPI(
@@ -25,4 +26,4 @@ async def ingest_telemetry(batch: TelemetryBatch):
         result = await service.ingest_batch(batch)
         return result
     except ValueError as err:
-        raise HTTPException(status_code=400, detail=str(err))
+        raise HTTPException(status_code=400, detail=str(err)) from err

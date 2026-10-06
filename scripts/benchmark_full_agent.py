@@ -6,12 +6,12 @@ import glob
 import json
 import os
 import sys
+
 from tabulate import tabulate
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.agent.triage_agent import CICDIncidentTriageAgent
-from src.audit.logger import AuditLogger
 from src.audit.viewer import render_audit_trail
 
 

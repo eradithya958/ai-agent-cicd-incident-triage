@@ -2,7 +2,8 @@
 Fleet Telemetry Gateway Ingestion Service
 """
 import httpx
-from app.models import TelemetryBatch, IngestResponse
+
+from app.models import IngestResponse, TelemetryBatch
 
 
 class TelemetryIngestService:

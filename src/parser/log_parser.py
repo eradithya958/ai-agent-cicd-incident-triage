@@ -3,7 +3,8 @@ CI/CD Log and Output Parser.
 Ingests raw CI run logs and extracts structured failure signatures, stages, and error summaries.
 """
 import re
-from typing import Optional, Tuple
+from typing import ClassVar
+
 from src.parser.models import ParsedIncident
 
 
@@ -12,7 +13,7 @@ class CICDLogParser:
     Extracts structured failure data from GitHub Actions or local CI logs.
     """
 
-    STAGE_PATTERNS = [
+    STAGE_PATTERNS: ClassVar[list[tuple[str, str]]] = [
         (r"deploy|canary|rollout|staging", "deploy-simulation"),
         (r"pip-audit|bandit|secret|vulnerability", "security-audit"),
         (r"ruff|flake8|mypy|lint", "lint-and-quality"),
@@ -20,7 +21,7 @@ class CICDLogParser:
         (r"docker build|building docker|extracting layer|build definition", "build-package"),
     ]
 
-    SIGNATURE_PATTERNS = [
+    SIGNATURE_PATTERNS: ClassVar[list[tuple[str, str]]] = [
         # High Risk signatures
         (r"(AKIA[0-9A-Z]{16}|ghp_[0-9a-zA-Z]{36}|Raw credentials present|Potential AWS Access Key)", "SECRET_LEAK_DETECTED"),
         (r"KNOWN VULNERABILITY FOUND|CVE-\d{4}-\d+|Security gate failed", "SECURITY_VULNERABILITY_DETECTED"),
@@ -38,7 +39,7 @@ class CICDLogParser:
         (r"assert 400 == 200|ValueError: speed_kmh must be|FAILED tests/.*AssertionError|FAILED tests/.*ValueError", "CODE_ASSERTION_REGRESSION"),
     ]
 
-    def parse(self, raw_log: str, explicit_stage: Optional[str] = None, scenario_id: Optional[str] = None) -> ParsedIncident:
+    def parse(self, raw_log: str, explicit_stage: str | None = None, scenario_id: str | None = None) -> ParsedIncident:
         """
         Parses raw CI log text into a structured ParsedIncident.
         """
@@ -65,7 +66,7 @@ class CICDLogParser:
                 return stage_name
         return "unknown-stage"
 
-    def _extract_error_details(self, log_text: str) -> Tuple[str, str, str]:
+    def _extract_error_details(self, log_text: str) -> tuple[str, str, str]:
         # Match signature first
         detected_sig = "GENERIC_CI_FAILURE"
         for sig_regex, sig_name in self.SIGNATURE_PATTERNS:
@@ -115,7 +116,7 @@ class CICDLogParser:
 
         return "UnknownError", "Command completed with non-zero exit code", detected_sig
 
-    def _extract_stack_trace(self, log_text: str) -> Optional[str]:
+    def _extract_stack_trace(self, log_text: str) -> str | None:
         if "FAILURES" in log_text:
             lines = log_text.split("FAILURES")[-1]
             return lines[:1200].strip()
@@ -123,7 +124,7 @@ class CICDLogParser:
             lines = log_text.split("Traceback (most recent call last):")[-1]
             return ("Traceback (most recent call last):" + lines)[:1200].strip()
         if "ERROR:" in log_text or "CRITICAL" in log_text:
-            lines = [l for l in log_text.splitlines() if any(k in l for k in ["ERROR", "CRITICAL", "FAILED", "WARNING"])]
+            lines = [line for line in log_text.splitlines() if any(k in line for k in ["ERROR", "CRITICAL", "FAILED", "WARNING"])]
             return "\n".join(lines[:10])
         return None
 

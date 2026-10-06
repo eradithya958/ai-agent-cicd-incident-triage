@@ -1,14 +1,14 @@
 """
 Audit Trail Viewer and Compliance Summary Dashboard CLI.
 """
-import os
 import sys
-from typing import Optional
+
 from tabulate import tabulate
+
 from src.audit.logger import AuditLogger
 
 
-def render_audit_trail(log_dir: str = "logs", filter_tier: Optional[str] = None):
+def render_audit_trail(log_dir: str = "logs", filter_tier: str | None = None):
     logger = AuditLogger(log_dir=log_dir)
     records = logger.fetch_all_records()
 

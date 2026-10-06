@@ -2,7 +2,8 @@
 Rule-Based CI/CD Failure Classifier.
 Maps structured incident logs to failure taxonomy categories and confidence scores using deterministic patterns.
 """
-from typing import Dict, Any
+from typing import Any, ClassVar
+
 from src.parser.models import ParsedIncident
 
 
@@ -11,7 +12,7 @@ class RuleBasedClassifier:
     Stage 1 classifier applying pattern-matching rules derived from the failure taxonomy.
     """
 
-    TAXONOMY_CATEGORIES = {
+    TAXONOMY_CATEGORIES: ClassVar[dict[str, Any]] = {
         # LOW RISK
         "TRANSIENT_NETWORK_TIMEOUT": {
             "risk_tier": "LOW",
@@ -69,7 +70,7 @@ class RuleBasedClassifier:
         },
     }
 
-    def classify(self, incident: ParsedIncident) -> Dict[str, Any]:
+    def classify(self, incident: ParsedIncident) -> dict[str, Any]:
         """
         Evaluates the parsed incident against rule patterns.
         Returns category, confidence (0.0 - 1.0), and rule explanation.
@@ -97,9 +98,7 @@ class RuleBasedClassifier:
                 reasons.append(f"matched keywords {matched_kw}")
 
             # Specific stage alignment
-            if category.startswith("SECURITY") and incident.pipeline_stage == "security-audit":
-                score += 0.05
-            elif category.startswith("PRODUCTION") and incident.pipeline_stage == "deploy-simulation":
+            if category.startswith("SECURITY") and incident.pipeline_stage == "security-audit" or category.startswith("PRODUCTION") and incident.pipeline_stage == "deploy-simulation":
                 score += 0.05
 
             final_confidence = min(1.0, round(score, 2))

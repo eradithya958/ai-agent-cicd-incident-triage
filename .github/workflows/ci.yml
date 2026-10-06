@@ -55,7 +55,7 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-asyncio httpx
       - name: Run Pytest Test Suite
-        run: pytest tests/ -v
+        run: pytest tests/ tests_agent/ -v
 
   build-package:
     runs-on: ubuntu-latest

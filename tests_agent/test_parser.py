@@ -2,6 +2,7 @@
 Tests for CI/CD Log Parser
 """
 import pytest
+
 from src.parser.log_parser import CICDLogParser
 
 
