@@ -1,0 +1,19 @@
+{
+  "incident_id": "INC-1791306645257",
+  "timestamp": "2026-10-06T17:10:45Z",
+  "pipeline_stage": "deploy-simulation",
+  "scenario_id": "EDGE-PROD-TIMEOUT-01",
+  "failure_signature": "NETWORK_TIMEOUT",
+  "error_type": "ConnectTimeout",
+  "assigned_category": "TRANSIENT_NETWORK_TIMEOUT",
+  "risk_tier": "HIGH",
+  "classification_confidence": 0.95,
+  "policy_rule_enforced": "POL-STAGE-01-PROD-BOUNDARY",
+  "policy_justification": "Incident occurred in deployment stage 'deploy-simulation'. Production/staging environment mutations carry high blast radius and strictly forbid autonomous action.",
+  "requires_human_approval": true,
+  "diagnostic_summary": "Rule-based match: matched signature 'NETWORK_TIMEOUT'; matched keywords ['connecttimeout', 'timeout']",
+  "recommended_patch_proposal": "Manual human triage and investigation required.",
+  "raw_error_message": "Connection to mock service timed out after 2.0s",
+  "stack_trace_excerpt": null,
+  "escalation_channel": "slack-#platform-incident-triage"
+}
